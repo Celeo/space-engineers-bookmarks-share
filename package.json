@@ -14,6 +14,12 @@
     "lint": "tsc --noEmit && eslint src/**/*.{ts,tsx} tests/*.ts && prettier --check {src,tests}",
     "lint:fix": "eslint --fix src/**/*.{ts,tsx} tests/*.ts && prettier -w {src,tests}"
   },
+  "dependencies": {
+    "@supabase/supabase-js": "^1.9.0",
+    "react-hotkeys-hook": "^3.3.0",
+    "react-modal": "^3.13.1",
+    "uuid": "^8.3.2"
+  },
   "devDependencies": {
     "@babel/preset-typescript": "^7.12.7",
     "@types/enzyme": "^3.10.8",
@@ -22,6 +28,7 @@
     "@types/node": "^14.14.16",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/react-modal": "^3.12.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "enzyme": "^3.11.0",
     "eslint-config-prettier": "^7.1.0",
@@ -51,7 +58,10 @@
     },
     "ignorePatterns": [
       "build/**/*"
-    ]
+    ],
+    "rules": {
+      "@typescript-eslint/ban-ts-comment": "warn"
+    }
   },
   "browserslist": {
     "production": [

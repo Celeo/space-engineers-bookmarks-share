@@ -1,0 +1,29 @@
+body {
+  background-color: #2a2b2b;
+  color: white;
+}
+
+#main {
+  margin-top: 3rem;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 150%;
+}
+
+li {
+  padding-top: 15px;
+}
+
+ul {
+  list-style-type: circle;
+}
+
+.spacer {
+  padding-top: 1.5rem;
+}
+
+.underline {
+  text-decoration: underline;
+}
