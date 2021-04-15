@@ -22,6 +22,7 @@ export const AddBookmark = (): React.ReactElement => {
 
   const onPaste = (event: ClipboardEvent<HTMLTextAreaElement>): void => {
     const text = event.clipboardData.getData("text");
+    // TODO
     setModalOpen(false);
   };
 
