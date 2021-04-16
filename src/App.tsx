@@ -2,7 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import { AuthSignIn, AuthSignOut } from "./Auth";
+import { Home } from "./Home";
 import { Navbar } from "./Navbar";
+import { WorldInfo, WorldListing } from "./Worlds";
 
 export const App = (): React.ReactElement => {
   return (
@@ -11,7 +13,6 @@ export const App = (): React.ReactElement => {
         <Navbar />
         <section className="section">
           <div className="container">
-            <h2 className="title is-2">App</h2>
             <Switch>
               <Route path="/auth/sign-in">
                 <AuthSignIn />
@@ -19,8 +20,14 @@ export const App = (): React.ReactElement => {
               <Route path="/auth/sign-out">
                 <AuthSignOut />
               </Route>
+              <Route path="/worlds/:id">
+                <WorldInfo />
+              </Route>
+              <Route path="/worlds">
+                <WorldListing />
+              </Route>
               <Route path="/">
-                <p className="s-text">Home</p>
+                <Home />
               </Route>
             </Switch>
           </div>

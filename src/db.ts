@@ -1,6 +1,11 @@
 import { createClient } from "@supabase/supabase-js";
 
-export interface World {
+export interface WorldInfoBasic {
+  id: string;
+  name: string;
+}
+
+export interface WorldInfoFull {
   id: string;
   name: string;
 }

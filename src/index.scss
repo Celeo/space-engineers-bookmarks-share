@@ -6,7 +6,15 @@ $text-strong: #12e000;
 
 @import "../node_modules/bulma/bulma.sass";
 
-.s-text {
+.m-text {
   font-size: 1.3rem;
   color: $success;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+.has-underline {
+  text-decoration: underline;
 }

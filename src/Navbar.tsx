@@ -4,9 +4,17 @@ import { supabase } from "./db";
 
 export const Navbar = (): React.ReactElement => {
   const current = useLocation().pathname;
+  const hasValidSession = supabase.auth.session();
 
-  const authButtons = () =>
-    supabase.auth.session() === null ? (
+  const linkClassName = (path: string): string => {
+    if (current === path) {
+      return "navbar-item is-active";
+    }
+    return "navbar-item";
+  };
+
+  const authButtons =
+    hasValidSession === null ? (
       <Link to="/auth/sign-in" className={linkClassName("/auth/sign-in")}>
         Sign in
       </Link>
@@ -15,13 +23,6 @@ export const Navbar = (): React.ReactElement => {
         Sign out
       </Link>
     );
-
-  const linkClassName = (path: string): string => {
-    if (current === path) {
-      return "navbar-item is-active";
-    }
-    return "navbar-item";
-  };
 
   return (
     <nav
@@ -39,8 +40,13 @@ export const Navbar = (): React.ReactElement => {
           <Link to="/" className={linkClassName("/")}>
             Home
           </Link>
+          {hasValidSession && (
+            <Link to="/worlds" className={linkClassName("/worlds")}>
+              Worlds
+            </Link>
+          )}
         </div>
-        <div className="navbar-end">{authButtons()}</div>
+        <div className="navbar-end">{authButtons}</div>
       </div>
     </nav>
   );

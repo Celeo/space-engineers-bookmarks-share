@@ -1,32 +1,85 @@
 import React from "react";
-import { supabase, World } from "./db";
+import { Link, useParams } from "react-router-dom";
+import { supabase, WorldInfoBasic } from "./db";
 
 export const WorldListing = (): React.ReactElement => {
-  const [worlds, setWorlds] = React.useState<Array<World>>([]);
+  const [worlds, setWorlds] = React.useState<Array<WorldInfoBasic>>([]);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     (async () => {
-      const { data: worlds, error } = await supabase.from("worlds").select("*");
+      const { data: worlds, error } = await supabase
+        .from("worlds")
+        .select("id, name");
       if (error) {
         console.log(error);
       } else {
         setWorlds(worlds || []);
       }
+      setLoading(false);
     })();
   }, []);
 
   return (
     <div>
-      <h2 className="underline">Space Engineers Bookmark Sharing</h2>
-      <div className="spacer"></div>
-      <h4>Worlds</h4>
+      <h2 className="title is-2">Worlds</h2>
+      {loading && <p className="m-text has-text-light">Loading worlds ...</p>}
       <ul>
         {worlds.map((world) => (
-          <li id={`world-${world.id}`} key={world.id}>
-            <span>{world.name}</span>
+          <li id={`world-${world.id}`} key={world.id} className="m-text">
+            <Link
+              to={`/worlds/${world.id}`}
+              className="has-text-success has-underline"
+            >
+              {world.name}
+            </Link>
           </li>
         ))}
       </ul>
+    </div>
+  );
+};
+
+export const WorldInfo = (): React.ReactElement => {
+  const { id: worldId } = useParams<Record<string, string | undefined>>();
+  const [loading, setLoading] = React.useState(true);
+  const [worldInfo, setWorldInfo] = React.useState<Record<
+    string,
+    unknown
+  > | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    (async () => {
+      const { data, error } = await supabase
+        .from("worlds")
+        .select("*")
+        .eq("id", worldId);
+      if (error) {
+        setError(error.message);
+      }
+      if (!error && (data === null || data.length === 0)) {
+        setError("No data found");
+      }
+      if (data !== null) {
+        setWorldInfo(data[0]);
+      }
+      setLoading(false);
+    })();
+  }, [worldId]);
+
+  return (
+    <div>
+      {!loading && !error && worldInfo && (
+        <h3 className="title is-3">World info for {worldInfo.name}</h3>
+      )}
+      {loading && (
+        <p className="m-text has-text-light">Loading world info ...</p>
+      )}
+      {error && (
+        <p className="m-text has-text-danger">Error loading data: {error}</p>
+      )}
+      {!loading && <pre>{JSON.stringify(worldInfo)}</pre>}
     </div>
   );
 };
