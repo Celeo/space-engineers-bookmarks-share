@@ -20,7 +20,7 @@ export const App = (): React.ReactElement => {
                 <AuthSignOut />
               </Route>
               <Route path="/">
-                <p>Home</p>
+                <p className="s-text">Home</p>
               </Route>
             </Switch>
           </div>

@@ -5,3 +5,8 @@ $scheme-invert: #b8edc2;
 $text-strong: #12e000;
 
 @import "../node_modules/bulma/bulma.sass";
+
+.s-text {
+  font-size: 1.3rem;
+  color: $success;
+}
