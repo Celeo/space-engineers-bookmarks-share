@@ -40,11 +40,9 @@ export const Navbar = (): React.ReactElement => {
           <Link to="/" className={linkClassName("/")}>
             Home
           </Link>
-          {hasValidSession && (
-            <Link to="/worlds" className={linkClassName("/worlds")}>
-              Worlds
-            </Link>
-          )}
+          <Link to="/worlds" className={linkClassName("/worlds")}>
+            Worlds
+          </Link>
         </div>
         <div className="navbar-end">{authButtons}</div>
       </div>

@@ -1,20 +1,25 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { supabase, WorldInfoBasic } from "./db";
+import { BookmarkListing } from "./Bookmarks";
 
 export const WorldListing = (): React.ReactElement => {
   const [worlds, setWorlds] = React.useState<Array<WorldInfoBasic>>([]);
   const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     (async () => {
-      const { data: worlds, error } = await supabase
+      const { data, error: err } = await supabase
         .from("worlds")
         .select("id, name");
-      if (error) {
-        console.log(error);
+      if (err) {
+        setError(err.message);
       } else {
-        setWorlds(worlds || []);
+        setError(null);
+      }
+      if (data) {
+        setWorlds(data);
       }
       setLoading(false);
     })();
@@ -24,6 +29,9 @@ export const WorldListing = (): React.ReactElement => {
     <div>
       <h2 className="title is-2">Worlds</h2>
       {loading && <p className="m-text has-text-light">Loading worlds ...</p>}
+      {error && (
+        <p className="m-text has-text-danger">Error loading data: {error}</p>
+      )}
       <ul>
         {worlds.map((world) => (
           <li id={`world-${world.id}`} key={world.id} className="m-text">
@@ -43,22 +51,24 @@ export const WorldListing = (): React.ReactElement => {
 export const WorldInfo = (): React.ReactElement => {
   const { id: worldId } = useParams<Record<string, string | undefined>>();
   const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
   const [worldInfo, setWorldInfo] = React.useState<Record<
     string,
     unknown
   > | null>(null);
-  const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     (async () => {
-      const { data, error } = await supabase
+      const { data, error: err } = await supabase
         .from("worlds")
         .select("*")
         .eq("id", worldId);
-      if (error) {
-        setError(error.message);
+      if (err) {
+        setError(err.message);
+      } else {
+        setError(null);
       }
-      if (!error && (data === null || data.length === 0)) {
+      if (!err && (data === null || data.length === 0)) {
         setError("No data found");
       }
       if (data !== null) {
@@ -70,16 +80,18 @@ export const WorldInfo = (): React.ReactElement => {
 
   return (
     <div>
-      {!loading && !error && worldInfo && (
-        <h3 className="title is-3">World info for {worldInfo.name}</h3>
-      )}
       {loading && (
         <p className="m-text has-text-light">Loading world info ...</p>
       )}
       {error && (
         <p className="m-text has-text-danger">Error loading data: {error}</p>
       )}
-      {!loading && <pre>{JSON.stringify(worldInfo)}</pre>}
+      {!loading && !error && worldInfo && (
+        <h2 className="title is-2">{worldInfo.name as string}</h2>
+      )}
+      <section className="section">
+        {!error && worldId && <BookmarkListing worldId={worldId} />}
+      </section>
     </div>
   );
 };

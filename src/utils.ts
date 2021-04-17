@@ -30,3 +30,6 @@ export const parseGPS = (text: string): Coordinate | null => {
   }
   return parsed;
 };
+
+export const toGPS = (coordinate: Coordinate): string =>
+  `GPS:${coordinate.name}:${coordinate.x}:${coordinate.y}:${coordinate.z}:${coordinate.color}:`;
