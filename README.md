@@ -1,8 +1,8 @@
-# Space Engineers Bookmarks Share
+# Space Engineers Coordinates Share
 
-[![CI](https://github.com/Celeo/space-engineers-bookmarks-share/workflows/CD/badge.svg?branch=master)](https://github.com/celeo/space-engineers-bookmarks-share/actions?query=workflow%3ACD)
+[![CI](https://github.com/Celeo/space-engineers-coordinates-share/workflows/CD/badge.svg?branch=master)](https://github.com/celeo/space-engineers-coordinates-share/actions?query=workflow%3ACD)
 
-A site for sharing bookmarks for [Space Engineers](https://store.steampowered.com/app/244850/Space_Engineers/).
+A site for sharing GPS coordinates for [Space Engineers](https://store.steampowered.com/app/244850/Space_Engineers/).
 
 ## Developing
 
@@ -17,8 +17,8 @@ A site for sharing bookmarks for [Space Engineers](https://store.steampowered.co
 #### Steps
 
 ```sh
-git clone https://github.com/Celeo/space-engineers-bookmarks-share
-cd space-engineers-bookmarks-share
+git clone https://github.com/Celeo/space-engineers-coordinates-share
+cd space-engineers-coordinates-share
 yarn
 ```
 

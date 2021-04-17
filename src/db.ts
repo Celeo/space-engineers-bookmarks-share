@@ -10,7 +10,7 @@ export interface WorldInfoFull {
   name: string;
 }
 
-export interface Bookmark {
+export interface Coordinate {
   id: number;
   name: string;
   x: number;

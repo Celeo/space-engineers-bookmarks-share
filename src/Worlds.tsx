@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { supabase, WorldInfoBasic } from "./db";
-import { BookmarkListing } from "./Bookmarks";
+import { CoordinateListing } from "./Coordinates";
 
 export const WorldListing = (): React.ReactElement => {
   const [worlds, setWorlds] = React.useState<Array<WorldInfoBasic>>([]);
@@ -90,7 +90,7 @@ export const WorldInfo = (): React.ReactElement => {
         <h2 className="title is-2">{worldInfo.name as string}</h2>
       )}
       <section className="section">
-        {!error && worldId && <BookmarkListing worldId={worldId} />}
+        {!error && worldId && <CoordinateListing worldId={worldId} />}
       </section>
     </div>
   );

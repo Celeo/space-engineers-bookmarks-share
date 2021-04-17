@@ -32,7 +32,7 @@ export const Navbar = (): React.ReactElement => {
     >
       <div className="navbar-brand">
         <a className="navbar-item" href="/">
-          SE Bookmarks
+          SE Coordinates
         </a>
       </div>
       <div className="navbar-menu">
