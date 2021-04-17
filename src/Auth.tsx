@@ -57,21 +57,27 @@ export const AuthSignIn = (): React.ReactElement => {
 
   return (
     <div>
-      <div className="field">
-        <label className="label">Email</label>
-        <input
-          type="email"
-          id="auth-email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-      <div className="field">
-        <label className="label">Password</label>
-        <input
-          type="password"
-          id="auth-password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+      <div className="columns">
+        <div className="column is-4">
+          <div className="field">
+            <label className="label">Email</label>
+            <input
+              className="input"
+              type="email"
+              id="auth-email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="field">
+            <label className="label">Password</label>
+            <input
+              className="input"
+              type="password"
+              id="auth-password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+        </div>
       </div>
       <div className="field is-grouped">
         <div className="control">
