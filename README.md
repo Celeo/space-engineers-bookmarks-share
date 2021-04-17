@@ -1,6 +1,6 @@
 # Space Engineers Coordinates Share
 
-[![CI](https://github.com/Celeo/space-engineers-coordinates-share/workflows/CD/badge.svg?branch=master)](https://github.com/celeo/space-engineers-coordinates-share/actions?query=workflow%3ACD)
+[![CD](https://github.com/Celeo/space_engineers_coordinates_share/workflows/CD/badge.svg?branch=master)](https://github.com/celeo/space_engineers_coordinates_share/actions?query=workflow%3ACD)
 
 A site for sharing GPS coordinates for [Space Engineers](https://store.steampowered.com/app/244850/Space_Engineers/).
 
@@ -17,8 +17,8 @@ A site for sharing GPS coordinates for [Space Engineers](https://store.steampowe
 #### Steps
 
 ```sh
-git clone https://github.com/Celeo/space-engineers-coordinates-share
-cd space-engineers-coordinates-share
+git clone https://github.com/Celeo/space_engineers_coordinates_share
+cd space_engineers_coordinates_share
 yarn
 ```
 
