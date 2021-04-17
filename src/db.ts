@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 export interface WorldInfoBasic {
   id: string;
@@ -20,8 +20,11 @@ export interface Bookmark {
   world_id: string;
 }
 
-const SUPABASE_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxODE3ODE5NSwiZXhwIjoxOTMzNzU0MTk1fQ.f_55XTes2oyFVNxNyEoXPyX1zslbiwFaaTqwS6tH9jE";
-const SUPABASE_URL = "https://fgjmglnuzhqwlxmzfivm.supabase.co";
-
-export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+export const supabase = (): SupabaseClient => {
+  const url = process.env.REACT_APP_SUPABASE_URL;
+  const key = process.env.REACT_APP_SUPABASE_KEY;
+  if (!url || !key) {
+    throw new Error("Supabase URL or key missing from environment");
+  }
+  return createClient(url, key);
+};

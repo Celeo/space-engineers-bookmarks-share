@@ -4,7 +4,7 @@ import { supabase } from "./db";
 
 export const Navbar = (): React.ReactElement => {
   const current = useLocation().pathname;
-  const hasValidSession = supabase.auth.session();
+  const hasValidSession = supabase().auth.session();
 
   const linkClassName = (path: string): string => {
     if (current === path) {

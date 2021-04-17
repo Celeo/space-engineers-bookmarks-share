@@ -10,7 +10,7 @@ export const AuthSignIn = (): React.ReactElement => {
   const history = useHistory();
 
   const register = async () => {
-    const { error } = await supabase.auth.signUp({
+    const { error } = await supabase().auth.signUp({
       email,
       password,
     });
@@ -24,7 +24,7 @@ export const AuthSignIn = (): React.ReactElement => {
   };
 
   const signIn = async () => {
-    const { error } = await supabase.auth.signIn({
+    const { error } = await supabase().auth.signIn({
       email,
       password,
     });
@@ -110,7 +110,7 @@ export const AuthSignIn = (): React.ReactElement => {
 
 export const AuthSignOut = (): React.ReactElement => {
   React.useEffect(() => {
-    supabase.auth.signOut();
+    supabase().auth.signOut();
   }, []);
 
   return <Redirect to="/auth/sign-in" />;

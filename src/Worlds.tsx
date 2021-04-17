@@ -10,7 +10,7 @@ export const WorldListing = (): React.ReactElement => {
 
   React.useEffect(() => {
     (async () => {
-      const { data, error: err } = await supabase
+      const { data, error: err } = await supabase()
         .from("worlds")
         .select("id, name");
       if (err) {
@@ -59,7 +59,7 @@ export const WorldInfo = (): React.ReactElement => {
 
   React.useEffect(() => {
     (async () => {
-      const { data, error: err } = await supabase
+      const { data, error: err } = await supabase()
         .from("worlds")
         .select("*")
         .eq("id", worldId);

@@ -17,4 +17,4 @@ jobs:
     - run: yarn
     - run: yarn build
     - run: yarn test
-    # - run: npx surge build ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+    - run: npx surge build ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}

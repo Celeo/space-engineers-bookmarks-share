@@ -50,7 +50,7 @@ export const BookmarkListing = (props: Props): React.ReactElement => {
   const [bookmarks, setBookmarks] = React.useState<Array<Bookmark>>([]);
   const [modalOpen, setModalOpen] = React.useState(false);
 
-  const hasValidSession = supabase.auth.session();
+  const hasValidSession = supabase().auth.session();
 
   useHotkeys("n", (): void => {
     if (hasValidSession) {
@@ -59,7 +59,7 @@ export const BookmarkListing = (props: Props): React.ReactElement => {
   });
 
   const loadBookmarks = async (worldId: string): Promise<void> => {
-    const { data, error: err } = await supabase
+    const { data, error: err } = await supabase()
       .from("bookmarks")
       .select("*")
       .eq("world_id", worldId);
@@ -100,16 +100,18 @@ export const BookmarkListing = (props: Props): React.ReactElement => {
         return;
       }
 
-      const { error } = await supabase.from("bookmarks").insert([
-        {
-          name: parsed.name,
-          x: parsed.x,
-          y: parsed.y,
-          z: parsed.z,
-          color: parsed.color,
-          world_id: props.worldId,
-        },
-      ]);
+      const { error } = await supabase()
+        .from("bookmarks")
+        .insert([
+          {
+            name: parsed.name,
+            x: parsed.x,
+            y: parsed.y,
+            z: parsed.z,
+            color: parsed.color,
+            world_id: props.worldId,
+          },
+        ]);
 
       if (error === null) {
         toast({
