@@ -2,32 +2,48 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { supabase, WorldInfoBasic } from "./db";
 import { CoordinateListing } from "./Coordinates";
+import { WorldAdd } from "./WorldAdd";
 
 export const WorldListing = (): React.ReactElement => {
   const [worlds, setWorlds] = React.useState<Array<WorldInfoBasic>>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 
+  const loadWorlds = async (): Promise<void> => {
+    const { data, error: err } = await supabase()
+      .from("worlds")
+      .select("id, name");
+    if (err) {
+      setError(err.message);
+    } else {
+      setError(null);
+    }
+    if (data) {
+      setWorlds(data);
+    }
+    setLoading(false);
+  };
+
+  const onWorldAdded = async () => {
+    await loadWorlds();
+  };
+
   React.useEffect(() => {
     (async () => {
-      const { data, error: err } = await supabase()
-        .from("worlds")
-        .select("id, name");
-      if (err) {
-        setError(err.message);
-      } else {
-        setError(null);
-      }
-      if (data) {
-        setWorlds(data);
-      }
-      setLoading(false);
+      await loadWorlds();
     })();
   }, []);
 
   return (
     <div>
-      <h2 className="title is-2">Worlds</h2>
+      <div className="columns">
+        <div className="column is-10">
+          <h4 className="title is-4">Worlds</h4>
+        </div>
+        <div className="column">
+          <WorldAdd worlds={worlds} onWorldAdded={onWorldAdded} />
+        </div>
+      </div>
       {loading && <p className="m-text has-text-light">Loading worlds ...</p>}
       {error && (
         <p className="m-text has-text-danger">Error loading data: {error}</p>

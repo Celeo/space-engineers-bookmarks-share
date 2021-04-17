@@ -1,14 +1,13 @@
-import React, { ClipboardEvent } from "react";
+import React from "react";
 import { toast } from "bulma-toast";
 import ReactModal from "react-modal";
 import { useHotkeys } from "react-hotkeys-hook";
-import { supabase, Coordinate } from "./db";
-import { parseGPS } from "./utils";
+import { v4 as uuidv4 } from "uuid";
+import { supabase, WorldInfoBasic } from "./db";
 
 interface Props {
-  worldId: string;
-  coordinates: Array<Coordinate>;
-  onCoordinateAdded: () => Promise<void>;
+  worlds: Array<WorldInfoBasic>;
+  onWorldAdded: () => Promise<void>;
 }
 
 const modalStyle = {
@@ -22,8 +21,9 @@ const modalStyle = {
   },
 };
 
-export const CoordinateAdd = (props: Props): React.ReactElement => {
+export const WorldAdd = (props: Props): React.ReactElement => {
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [name, setName] = React.useState("");
   const [error, setError] = React.useState<string | null>(null);
 
   const hasValidSession = supabase().auth.session();
@@ -34,49 +34,27 @@ export const CoordinateAdd = (props: Props): React.ReactElement => {
     }
   });
 
-  const onPaste = async (event: ClipboardEvent<HTMLTextAreaElement>) => {
-    event.preventDefault();
-    const text = event.clipboardData.getData("text");
-    const parsed = parseGPS(text);
-
-    if (parsed === null) {
-      setError("That is not a valid GPS coordinate ");
+  const submit = async () => {
+    if (props.worlds.filter((world) => world.name === name).length > 0) {
+      setError("A world with that name already exists");
       return;
     }
-    if (
-      props.coordinates.filter((coordinate) => coordinate.name === parsed.name)
-        .length > 0
-    ) {
-      setError("A coordinate with that name already exists");
-      return;
-    }
-
     const { error: err } = await supabase()
-      .from("coordinates")
-      .insert([
-        {
-          name: parsed.name,
-          x: parsed.x,
-          y: parsed.y,
-          z: parsed.z,
-          color: parsed.color,
-          world_id: props.worldId,
-        },
-      ]);
-
+      .from("worlds")
+      .insert([{ id: uuidv4(), name }]);
     if (err === null) {
       toast({
-        message: "Coordinate saved!",
+        message: "World saved!",
         type: "is-info",
         position: "top-center",
         duration: 5000,
       });
       setError(null);
       setModalOpen(false);
-      await props.onCoordinateAdded();
+      await props.onWorldAdded();
     } else {
-      console.log(`Error storing coordinate: ${err.message}`);
-      setError("Could not store that coordinate");
+      console.log(`Error storing world: ${err.message}`);
+      setError("Could not store that world");
     }
   };
 
@@ -103,17 +81,30 @@ export const CoordinateAdd = (props: Props): React.ReactElement => {
       >
         <div>
           <h3 className="title is-3" style={{ textAlign: "center" }}>
-            Paste new
+            Add new world
           </h3>
           <section className="section">
-            <p className="m-text has-text-success">
-              Paste your GPS coordinate here
-            </p>
-            <textarea
-              className="textarea"
-              onPaste={onPaste}
-              placeholder="..."
-            />
+            <div className="field">
+              <label className="label">Name of the world</label>
+              <input
+                className="input"
+                type="text"
+                id="world-add"
+                placeholder="..."
+                required={true}
+                maxLength={30}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="control">
+              <button
+                className="button is-link is-primary"
+                onClick={submit}
+                disabled={name.length === 0}
+              >
+                Submit
+              </button>
+            </div>
             {error && <p className="m-text has-text-danger">{error}</p>}
           </section>
         </div>
