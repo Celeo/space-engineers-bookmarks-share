@@ -15,6 +15,10 @@ jobs:
       with:
         node-version: 12.x
     - run: yarn
-    - run: yarn build
+    -
+      run: yarn build
+      env:
+        REACT_APP_SUPABASE_KEY: ${{ secrets.REACT_APP_SUPABASE_KEY }}
+        REACT_APP_SUPABASE_URL: ${{ secrets.REACT_APP_SUPABASE_URL }}
     - run: yarn test
     - run: npx surge build ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
