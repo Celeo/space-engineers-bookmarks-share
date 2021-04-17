@@ -99,7 +99,7 @@ export const CoordinateListing = (props: Props): React.ReactElement => {
     <div>
       <div className="columns">
         <div className="column is-10">
-          <h4 className="title is-4">Coordinate</h4>
+          <h4 className="title is-4">GPS Coordinates</h4>
         </div>
         <div className="column">
           <CoordinateAdd
