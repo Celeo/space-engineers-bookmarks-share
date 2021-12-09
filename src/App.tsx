@@ -33,7 +33,6 @@ export const App = (): React.ReactElement => {
           </div>
         </section>
       </Router>
-      \
     </div>
   );
 };
